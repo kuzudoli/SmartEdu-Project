@@ -1,12 +1,11 @@
-const Course = require('../models/Course');
 const Category = require('../models/Category');
 
-exports.createCourse = async (req, res) => {
+exports.createCategory = async (req, res) => {
 	try {
-	    const course = await Course.create(req.body);
+	    const category = await Category.create(req.body);
 		res.status(201).json({
 			status: 'Success',
-			course
+			category
 		});
 	} catch(error){
 		res.status(400).json({
@@ -19,10 +18,8 @@ exports.createCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
 	try {
 	    const courses = await Course.find();
-		const categories = await Category.find();
 		res.status(200).render("courses",{
             courses,
-			categories,
             page_name:'courses'
         });
 	} catch(error){
