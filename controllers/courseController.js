@@ -32,8 +32,8 @@ exports.getAllCourses = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
 	try {
-        const courseId = req.params.id; 
-	    const course = await Course.findById(courseId);
+        const courseSlug = req.params.slug; 
+	    const course = await Course.findOne({slug:courseSlug});
 		res.status(200).render("course",{
             course,
             page_name:'courses'
