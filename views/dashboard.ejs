@@ -23,7 +23,12 @@
 											<div class="course-desc">
 												<p><%=user.courses[i].description%></p>
 											</div>
+											<form method="post" action="/courses/release">
+												<input type="hidden" name="course_id" value="<%=user.courses[i]._id%>">
+												<button class="btn btn-lg btn-danger rounded-0 text-white"><span>Release</span></button>
+											</form>
 										</div>
+										
 									</div>
 								</div><!-- end col -->	
 							<%}%>

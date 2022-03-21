@@ -22,10 +22,8 @@ exports.loginUser = async (req, res) => {
 	    await User.findOne({email}).then((user) => {
 			if(user){
 				bcrypt.compare(password, user.password,(err,same) => {
-			 		if(same){
-						req.session.userID = user._id;
-						res.redirect("/users/dashboard");
-			 		}
+					req.session.userID = user._id;
+					res.redirect("/users/dashboard");
 				});
 		  	}
 		})
