@@ -5,8 +5,13 @@ const Course = require("../models/Course");
 
 exports.createUser = async (req, res) => {
 	try {
-	    const user = await User.create(req.body);
-		res.redirect("/login");
+		const findUser = await User.find({email:req.body.email});
+		if(!findUser){
+			const user = await User.create(req.body);
+			res.redirect("/login");
+		}else{
+			res.redirect("/");
+		}
 	} catch(error){
 		res.status(400).json({
             status: "Failed",
@@ -22,8 +27,12 @@ exports.loginUser = async (req, res) => {
 	    await User.findOne({email}).then((user) => {
 			if(user){
 				bcrypt.compare(password, user.password,(err,same) => {
-					req.session.userID = user._id;
-					res.redirect("/users/dashboard");
+					if(same){
+						req.session.userID = user._id;
+						res.redirect("/users/dashboard");
+					}else{
+						res.redirect("/login")
+					}
 				});
 		  	}
 		})
