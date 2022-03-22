@@ -40,6 +40,7 @@ app.use('/',pageRoute);
 app.use('/courses',courseRoute);
 app.use('/categories',categoryRoute);
 app.use('/users',userRoute);
+app.use('/contact',pageRoute);
 
 
 
