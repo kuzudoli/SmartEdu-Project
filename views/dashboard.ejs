@@ -66,9 +66,55 @@
 											<div class="course-desc">
 												<p><%=courses[i].description%></p>
 											</div>
+											<div>
+												<button class="btn btn-success rounded-0 text-white" data-toggle="modal" data-target="#updateCourse<%=courses[i]._id%>">Update</button>
+												<a href="/courses/<%=courses[i].slug%>?_method=DELETE" onclick="return confirm('Are you sure?')" class="btn btn-danger rounded-0 text-white">Delete</a>
+											</div>
 										</div>
 									</div>
 								</div><!-- end col -->	
+								<!-- UPDATE Modal -->
+								<div class="modal fade" id="updateCourse<%=courses[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="myModallabel">
+									<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+										<div class="modal-content">
+											<div class="modal-body customer-box"> 
+												<div class="tab-content">
+													<div class="tab-pane active" id="Login">
+														<form role="form" class="form-horizontal" method="post" action="/courses/<%=courses[i].slug%>?_method=PUT">
+															<div class="form-group">
+																<div class="col-sm-12">
+																	<input type="text" name="name" class="form-control" placeholder="Course Name" value="<%=courses[i].name%>">
+																</div>
+															</div>
+															<div class="form-group">
+																<div class="col-sm-12">
+																	<select class="form-control" name="category">
+																		<%for(let i=0;i<categories.length;i++){%>
+																			<option value="<%=categories[i]._id%>"><%=categories[i].name%></option>
+																		<%}%>
+																	</select>
+																</div>
+															</div>
+															<div class="form-group">
+																<div class="col-sm-12">
+																	<textarea rows="8" name="description" class="form-control" placeholder="Course Description" required><%=courses[i].description%></textarea>
+																</div>
+															</div>
+															<input type="hidden" name="role" value="<%=user.role%>">
+															<input type="hidden" name="user" value="<%=user._id%>">
+															<div class="row">
+																<div class="col-sm-10">
+																	<button type="submit" class="btn btn-light btn-radius btn-brd grd1">Submit</button>
+																	<button type="submit" class="btn btn-light btn-radius btn-brd grd1" data-dismiss="modal" aria-hidden="true">Cancel</button>
+																</div>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							<%}%>
 						</div><!-- end row -->
 					<%}%>
