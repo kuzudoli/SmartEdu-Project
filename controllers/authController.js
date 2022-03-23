@@ -5,12 +5,14 @@ const Course = require("../models/Course");
 
 exports.createUser = async (req, res) => {
 	try {
-		const findUser = await User.find({email:req.body.email});
+		const email = req.body.email;
+		const findUser = await User.findOne({email});
+		console.log(findUser);
 		if(!findUser){
 			const user = await User.create(req.body);
 			res.redirect("/login");
 		}else{
-			res.redirect("/");
+		 	res.redirect("/");
 		}
 	} catch(error){
 		res.status(400).json({
