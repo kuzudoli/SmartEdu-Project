@@ -36,7 +36,9 @@ exports.loginUser = async (req, res) => {
 						res.redirect("/login")
 					}
 				});
-		  	}
+		  	}else{
+				  res.redirect("/login")
+			  }
 		})
 	} catch(error){
 		res.status(400).json({
@@ -54,6 +56,7 @@ exports.logoutUser = async (req, res) => {
 
 exports.getDashboard = async(req,res) => {
 	const user = await User.findOne({_id:req.session.userID}).populate("courses")//Student
+	const users = await User.find()//for Admin
 	const categories = await Category.find();
 	const courses = await Course.find({user:req.session.userID}).populate("category")//Teacher
 	//console.log(courses[0].category.name + ":" + categories[0].name);
@@ -62,9 +65,23 @@ exports.getDashboard = async(req,res) => {
 			page_name:"dashboard",
 			user,
 			categories,
-			courses
+			courses,
+			users
 		});
 	}else{
 		res.redirect("/");
 	}
 }
+
+exports.deleteUser = async (req, res) => {
+	try {
+        await User.findByIdAndRemove(req.params.id);
+		await Course.deleteMany({user:req.params.id});//Removes deleted user's courses if it is teacher
+		res.status(200).redirect("/users/dashboard");
+	} catch(error){
+		res.status(400).json({
+            status: "Failed",
+            error
+        })
+	}
+};
